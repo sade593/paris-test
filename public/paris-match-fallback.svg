@@ -1,0 +1,8 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#F7F1E8"/>
+  <rect x="72" y="72" width="1056" height="656" fill="#171717"/>
+  <path d="M164 184H1036" stroke="#F7F1E8" stroke-width="10"/>
+  <path d="M164 616H1036" stroke="#F7F1E8" stroke-width="10"/>
+  <text x="164" y="365" fill="#F7F1E8" font-family="Georgia, serif" font-size="92" font-weight="700">Paris Match</text>
+  <text x="168" y="456" fill="#E3342F" font-family="Arial, sans-serif" font-size="38" letter-spacing="8">INTERNATIONAL</text>
+</svg>
