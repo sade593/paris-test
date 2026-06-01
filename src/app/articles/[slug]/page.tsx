@@ -3,8 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { siteConfig } from "@/config/site";
 import { formatArticleDate } from "@/features/articles/article-formatters";
 import { getArticleBySlug, getArticles } from "@/features/articles/article-queries";
+import {
+  articleImageUrl,
+  articleUrl,
+  buildArticleJsonLd,
+} from "@/features/articles/article-seo";
 
 type ArticlePageProps = {
   params: Promise<{
@@ -35,8 +41,36 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${article.title} | Paris Match`,
+    title: article.title,
     description: article.description,
+    alternates: {
+      canonical: articleUrl(article),
+    },
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      url: articleUrl(article),
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+      type: "article",
+      publishedTime: article.publishedAt,
+      authors: [article.author],
+      section: article.category,
+      images: [
+        {
+          url: articleImageUrl(article),
+          width: 1200,
+          height: 800,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.description,
+      images: [articleImageUrl(article)],
+    },
   };
 }
 
@@ -48,8 +82,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
+  const jsonLd = buildArticleJsonLd(article);
+
   return (
     <main className="min-h-screen bg-[#f8f6f1] text-neutral-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <article>
         <header className="bg-neutral-950 text-white">
           <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:py-12">
