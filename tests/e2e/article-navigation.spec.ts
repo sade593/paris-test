@@ -18,5 +18,6 @@ test("top navigation filters the article section by topic", async ({ page }) => 
   await page.getByRole("link", { name: "Politics", exact: true }).click();
 
   await expect(page).toHaveURL(/topic=politics/);
-  await expect(page.getByPlaceholder("Topic: polit")).toBeVisible();
+  await expect(page.getByPlaceholder("Category: Politics")).toBeVisible();
+  await expect(page.getByText("No articles match the selected filters.")).toHaveCount(0);
 });

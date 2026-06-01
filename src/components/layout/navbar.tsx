@@ -9,7 +9,7 @@ const navItems: {
   query?: string;
 }[] = [
   { label: "All", href: "/" },
-  { label: "Politics", href: "/?topic=politics#latest-stories", query: "polit" },
+  { label: "Politics", href: "/?topic=politics#latest-stories", query: "politics" },
   {
     label: "International",
     href: "/?topic=international#latest-stories",

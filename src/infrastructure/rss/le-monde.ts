@@ -54,7 +54,12 @@ function normalizeRssItem(item: RssItem, index: number): Article {
     textValue(item["content:encoded"], description || title),
   );
   const publishedAt = normalizeDate(textValue(item.pubDate, ""));
-  const category = textValue(item.category, DEFAULT_ARTICLE_CATEGORY);
+  const rawCategory = cleanText(textValue(item.category, DEFAULT_ARTICLE_CATEGORY));
+  const category = inferEditorialCategory(rawCategory, [
+    title,
+    description,
+    content,
+  ]);
   const author = textValue(
     item["dc:creator"] ?? item.author,
     DEFAULT_ARTICLE_AUTHOR,
@@ -69,9 +74,106 @@ function normalizeRssItem(item: RssItem, index: number): Article {
     imageUrl,
     publishedAt,
     author: cleanText(author),
-    category: cleanText(category),
+    category,
     sourceUrl,
   };
+}
+
+function inferEditorialCategory(rawCategory: string, fields: string[]): string {
+  if (
+    rawCategory &&
+    rawCategory !== DEFAULT_ARTICLE_CATEGORY &&
+    rawCategory.toLowerCase() !== "international"
+  ) {
+    return rawCategory;
+  }
+
+  const searchableText = normalizeSearchText(fields.join(" "));
+
+  const categorySignals: Array<[string, string[]]> = [
+    [
+      "Technology",
+      [
+        "elon musk",
+        "intelligence artificielle",
+        "technologie",
+        "technology",
+        "numerique",
+        "cyber",
+        "spacex",
+      ],
+    ],
+    [
+      "Environment",
+      [
+        "climat",
+        "climate",
+        "environnement",
+        "environment",
+        "petrolier",
+        "petrole",
+        "energie",
+        "lithium",
+      ],
+    ],
+    [
+      "Culture",
+      [
+        "culture",
+        "cinema",
+        "film",
+        "musee",
+        "festival",
+        "art",
+        "livre",
+      ],
+    ],
+    [
+      "Society",
+      [
+        "societe",
+        "social",
+        "police",
+        "prison",
+        "justice",
+        "expulsion",
+        "migrant",
+        "victime",
+        "memoire",
+      ],
+    ],
+    [
+      "Politics",
+      [
+        "politique",
+        "gouvernement",
+        "election",
+        "president",
+        "ministre",
+        "coalition",
+        "trump",
+        "parlement",
+      ],
+    ],
+  ];
+
+  return (
+    categorySignals.find(([, keywords]) =>
+      keywords.some((keyword) => matchesKeyword(searchableText, keyword)),
+    )?.[0] ?? DEFAULT_ARTICLE_CATEGORY
+  );
+}
+
+function matchesKeyword(searchableText: string, keyword: string): boolean {
+  const normalizedKeyword = normalizeSearchText(keyword);
+
+  if (normalizedKeyword.includes(" ")) {
+    return searchableText.includes(normalizedKeyword);
+  }
+
+  return new RegExp(`(^|[^a-z0-9])${normalizedKeyword}([^a-z0-9]|$)`).test(
+    searchableText,
+  );
 }
 
 function extractImageUrl(item: RssItem): string | null {
@@ -135,6 +237,13 @@ function cleanText(value: string): string {
     .replace(/&nbsp;/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function normalizeSearchText(value: string): string {
+  return cleanText(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
 function textValue(value: unknown, fallback: string): string {

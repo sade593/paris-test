@@ -16,27 +16,30 @@ export function ArticleFilters({
   categories,
 }: ArticleFiltersProps) {
   const searchParams = useSearchParams();
-  const topicQuery = getTopicQuery(searchParams?.get("topic") ?? null);
+  const topicCategory = getTopicCategory(searchParams?.get("topic") ?? null);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
+  const selectedCategory = topicCategory || category;
 
   const filteredArticles = useMemo(() => {
-    const normalizedQuery = (query || topicQuery).trim().toLowerCase();
+    const normalizedQuery = query.trim().toLowerCase();
 
     return articles.filter((article) => {
       const matchesCategory =
-        category === "All" || article.category === category;
+        selectedCategory === "All" || article.category === selectedCategory;
       const searchableText = [
         article.title,
         article.description,
         article.author,
+        article.category,
+        article.content,
       ]
         .join(" ")
         .toLowerCase();
 
       return matchesCategory && searchableText.includes(normalizedQuery);
     });
-  }, [articles, category, query, topicQuery]);
+  }, [articles, query, selectedCategory]);
 
   return (
     <section aria-labelledby="latest-stories">
@@ -68,16 +71,17 @@ export function ArticleFilters({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               type="search"
-              placeholder={topicQuery ? `Topic: ${topicQuery}` : "Rechercher…"}
+              placeholder={topicCategory ? `Category: ${topicCategory}` : "Rechercher…"}
               className="search-input"
             />
           </label>
           <label className="grid gap-2 md:min-w-52">
             <span className="eyebrow">Category</span>
             <select
-              value={category}
+              value={selectedCategory}
               onChange={(event) => setCategory(event.target.value)}
               className="search-input"
+              disabled={Boolean(topicCategory)}
             >
               <option value="All">Tout</option>
               {categories.map((categoryName) => (
@@ -95,7 +99,7 @@ export function ArticleFilters({
         <button
           type="button"
           onClick={() => setCategory("All")}
-          className={category === "All" ? "tag-active" : "tag"}
+          className={selectedCategory === "All" ? "tag-active" : "tag"}
         >
           Tout
         </button>
@@ -104,7 +108,8 @@ export function ArticleFilters({
             key={categoryName}
             type="button"
             onClick={() => setCategory(categoryName)}
-            className={category === categoryName ? "tag-active" : "tag"}
+            className={selectedCategory === categoryName ? "tag-active" : "tag"}
+            disabled={Boolean(topicCategory)}
           >
             {categoryName}
           </button>
@@ -132,21 +137,21 @@ export function ArticleFilters({
   );
 }
 
-const topicQueries: Record<string, string> = {
-  politics: "polit",
-  international: "international",
-  culture: "culture",
-  society: "soci",
-  technology: "tech",
-  environment: "climat",
+const topicCategories: Record<string, string> = {
+  politics: "Politics",
+  international: "International",
+  culture: "Culture",
+  society: "Society",
+  technology: "Technology",
+  environment: "Environment",
 };
 
-function getTopicQuery(topic: string | null): string {
+function getTopicCategory(topic: string | null): string {
   if (!topic) {
     return "";
   }
 
-  return topicQueries[topic] ?? "";
+  return topicCategories[topic] ?? "";
 }
 
 function getArticleVariant(

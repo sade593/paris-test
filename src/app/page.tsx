@@ -36,7 +36,6 @@ export const metadata: Metadata = {
 export default async function Home() {
   const articles = await getArticles();
   const [heroArticle, ...secondaryArticles] = articles;
-  const mainArticles = secondaryArticles.slice(0, 4);
   const sidebarArticles = secondaryArticles.slice(9, 15);
   const featuredArticles = secondaryArticles.slice(15, 19);
   const trendingArticles = secondaryArticles.slice(0, 5);
@@ -137,7 +136,7 @@ export default async function Home() {
         <section className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_360px]">
           <div className="lg:col-span-3">
             <Suspense fallback={null}>
-              <ArticleFilters articles={mainArticles} categories={categories} />
+              <ArticleFilters articles={secondaryArticles} categories={categories} />
             </Suspense>
           </div>
 
