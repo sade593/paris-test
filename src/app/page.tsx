@@ -68,8 +68,8 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="mx-auto w-[calc(100%-2rem)] max-w-editorial border-x border-stone-border bg-ink px-6 py-2 text-parchment" aria-label="Breaking news">
-        <div className="mx-auto flex max-w-editorial items-center gap-5 overflow-hidden">
+      <section className="w-full bg-ink px-6 py-2 text-parchment lg:px-10 xl:px-14" aria-label="Breaking news">
+        <div className="flex items-center gap-5 overflow-hidden">
           <span className="font-sans text-label-lg font-medium uppercase tracking-widest text-rouge">
             Breaking
           </span>
@@ -83,7 +83,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="mx-auto w-[calc(100%-2rem)] max-w-editorial border-x border-b border-stone-border bg-white px-6 py-8">
+      <div className="w-full bg-white px-6 py-8 lg:px-10 xl:px-14">
         <section className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]" aria-labelledby="top-story">
           <div>
             <div className="mb-4 flex items-center gap-3">

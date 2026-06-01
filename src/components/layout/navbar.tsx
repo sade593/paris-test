@@ -12,7 +12,7 @@ const navItems = [
 
 export function Navbar() {
   return (
-    <header className="mx-auto mt-8 w-[calc(100%-2rem)] max-w-editorial border border-stone-border bg-white shadow-[0_16px_40px_rgb(13_13_13_/_0.04)]">
+    <header className="w-full border-b border-stone-border bg-white">
       <div className="flex h-6 items-center justify-between bg-ink px-6 font-sans text-[0.65rem] text-parchment/55">
         <p>Monday, 1 June 2026</p>
         <div className="hidden items-center gap-4 sm:flex">
@@ -26,7 +26,7 @@ export function Navbar() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-6 py-5">
+      <div className="flex items-center justify-between px-6 py-5 lg:px-10 xl:px-14">
         <Link href="/" className="min-w-0" aria-label="Paris Match homepage">
           <div className="font-display text-3xl font-black uppercase leading-none tracking-[-0.04em] text-ink sm:text-4xl">
             Paris<span className="text-rouge">Match</span>
@@ -59,7 +59,7 @@ export function Navbar() {
       </div>
 
       <nav
-        className="flex gap-7 overflow-x-auto border-t border-stone-divider px-6"
+        className="flex gap-7 overflow-x-auto border-t border-stone-divider px-6 lg:px-10 xl:px-14"
         aria-label="Primary"
       >
         {navItems.map((item, index) => (
