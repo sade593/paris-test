@@ -10,8 +10,9 @@ type HeroArticleProps = {
 
 export function HeroArticle({ article }: HeroArticleProps) {
   return (
-    <article className="group relative min-h-[520px] overflow-hidden bg-ink ring-1 ring-ink/10">
-      <div className="absolute inset-0 bg-parchment-warm">
+    <article className="group relative min-h-[420px] overflow-hidden bg-ink ring-1 ring-ink/10 md:min-h-[520px]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(200,16,46,0.32),transparent_32%),linear-gradient(135deg,#0d0d0d_0%,#15100f_48%,#3a0712_100%)] md:hidden" />
+      <div className="absolute inset-0 hidden bg-parchment-warm md:block">
         <Image
           src={article.imageUrl}
           alt={article.title}
@@ -19,12 +20,11 @@ export function HeroArticle({ article }: HeroArticleProps) {
           sizes="(max-width: 1279px) calc(100vw - 3rem), calc(100vw - 31rem)"
           quality={78}
           className="object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
-          priority
         />
       </div>
       <div className="hero-overlay" />
 
-      <div className="absolute right-8 bottom-8 left-8 z-10 max-w-[760px] sm:right-auto lg:bottom-10 lg:left-10">
+      <div className="absolute right-6 bottom-7 left-6 z-10 max-w-[760px] sm:right-auto md:right-8 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10">
         <p className="mb-4 inline-flex bg-rouge px-3 py-1 font-sans text-[0.65rem] font-medium uppercase tracking-[0.1em] text-white">
           {article.category}
         </p>
