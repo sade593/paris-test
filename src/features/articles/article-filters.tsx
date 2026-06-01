@@ -38,7 +38,10 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
         <h2 id="latest-stories" className="section-title">
           Dernières nouvelles
         </h2>
-        <p className="eyebrow hidden sm:block">Filtrer la sélection</p>
+        <p className="hidden items-center gap-2 font-sans text-[0.62rem] font-light uppercase tracking-[0.18em] text-stone-editorial/70 sm:flex">
+          <span className="h-px w-5 bg-stone-border" aria-hidden="true" />
+          Filtrer la sélection
+        </p>
       </div>
 
       <form className="mb-8 grid gap-4 border-b border-stone-divider pb-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">

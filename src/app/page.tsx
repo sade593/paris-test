@@ -68,29 +68,30 @@ export default async function Home() {
       />
 
       <section className="bg-ink px-6 py-2 text-parchment" aria-label="Breaking news">
-        <div className="mx-auto flex max-w-editorial items-center gap-4 overflow-hidden">
+        <div className="mx-auto flex max-w-editorial items-center gap-5 overflow-hidden">
           <span className="font-sans text-label-lg font-medium uppercase tracking-widest text-rouge">
             Breaking
           </span>
+          <span className="h-3 w-px bg-parchment/25" aria-hidden="true" />
           <Link
             href={`/articles/${breakingArticle.slug}`}
-            className="truncate font-sans text-[0.75rem] text-parchment/80 transition-colors hover:text-parchment"
+            className="truncate font-sans text-[0.68rem] font-light tracking-wide text-parchment/70 transition-colors hover:text-parchment"
           >
             {breakingArticle.title}
           </Link>
         </div>
       </section>
 
-      <section className="mx-auto max-w-editorial px-6 pt-8 pb-12" aria-labelledby="top-story">
+      <section className="pt-0 pb-12" aria-labelledby="top-story">
         <HeroArticle article={heroArticle} />
       </section>
 
-      <section className="mx-auto grid max-w-editorial grid-cols-1 gap-8 px-6 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_320px]">
+      <section className="mx-auto grid max-w-editorial grid-cols-1 gap-8 px-6 pt-4 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_320px]">
         <div className="lg:col-span-3">
           <ArticleFilters articles={mainArticles} categories={categories} />
         </div>
 
-        <aside className="lg:col-span-3 xl:col-span-1">
+        <aside className="lg:col-span-3 xl:col-span-1 xl:border-l xl:border-stone-divider xl:pl-8">
           <div className="section-header">
             <h2 className="section-title">À la une</h2>
           </div>

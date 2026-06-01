@@ -139,11 +139,11 @@
   }
 
   .nav-link {
-    @apply font-sans text-label-lg font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors duration-200 hover:text-rouge;
+    @apply border-b border-transparent pb-0.5 font-sans text-label-lg font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors duration-200 hover:border-rouge/50 hover:text-rouge;
   }
 
   .nav-link-active {
-    @apply border-b border-rouge pb-0.5 font-sans text-label-lg font-medium uppercase tracking-[0.1em] text-rouge transition-colors duration-200 hover:text-rouge;
+    @apply border-b border-rouge pb-0.5 font-sans text-label-lg font-medium uppercase tracking-[0.1em] text-rouge transition-colors duration-200 hover:border-rouge hover:text-rouge;
   }
 
   .btn-primary {
@@ -187,7 +187,11 @@
   }
 
   .hero-overlay {
-    @apply absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent;
+    background:
+      linear-gradient(90deg, rgb(13 13 13 / 0.9) 0%, rgb(13 13 13 / 0.72) 34%, rgb(13 13 13 / 0.32) 62%, rgb(13 13 13 / 0.72) 100%),
+      linear-gradient(0deg, rgb(13 13 13 / 0.92) 0%, rgb(13 13 13 / 0.28) 48%, rgb(13 13 13 / 0.2) 100%);
+    inset: 0;
+    position: absolute;
   }
 
   .article-prose {
