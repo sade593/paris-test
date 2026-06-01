@@ -282,6 +282,13 @@
     overflow: hidden;
   }
 
+  .clip-3 {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
   .clip-4 {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;

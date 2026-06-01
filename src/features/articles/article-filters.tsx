@@ -94,13 +94,14 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
       </div>
 
       {filteredArticles.length > 0 ? (
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-6">
           {filteredArticles.map((article, index) => (
             <div
               key={article.slug}
+              className={getArticlePlacement(index)}
               style={{ animationDelay: `${Math.min(index, 8) * 0.05}s` }}
             >
-              <ArticleCard article={article} />
+              <ArticleCard article={article} variant={getArticleVariant(index)} />
             </div>
           ))}
         </div>
@@ -111,4 +112,38 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
       )}
     </section>
   );
+}
+
+function getArticleVariant(
+  index: number,
+): "standard" | "lead" | "horizontal" | "text" | "dark" {
+  const variants = [
+    "lead",
+    "text",
+    "standard",
+    "dark",
+    "horizontal",
+    "standard",
+    "text",
+    "horizontal",
+    "standard",
+  ] as const;
+
+  return variants[index % variants.length];
+}
+
+function getArticlePlacement(index: number): string {
+  const placements = [
+    "lg:col-span-6",
+    "lg:col-span-2",
+    "lg:col-span-2",
+    "lg:col-span-2",
+    "lg:col-span-3",
+    "lg:col-span-3",
+    "lg:col-span-2",
+    "lg:col-span-2",
+    "lg:col-span-2",
+  ];
+
+  return `animate-fade-up ${placements[index % placements.length]}`;
 }
