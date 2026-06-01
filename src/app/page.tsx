@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const articles = await getArticles();
   const [heroArticle, ...secondaryArticles] = articles;
-  const mainArticles = secondaryArticles.slice(0, 9);
+  const mainArticles = secondaryArticles.slice(0, 4);
   const sidebarArticles = secondaryArticles.slice(9, 15);
   const featuredArticles = secondaryArticles.slice(15, 19);
   const trendingArticles = secondaryArticles.slice(0, 5);
@@ -69,7 +69,7 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="w-full bg-ink px-6 py-2 text-parchment lg:px-10 xl:px-14" aria-label="Breaking news">
+      <section className="w-full bg-ink px-6 py-2.5 text-parchment lg:px-10 xl:px-14" aria-label="Breaking news">
         <div className="flex items-center gap-5 overflow-hidden">
           <span className="font-sans text-label-lg font-medium uppercase tracking-widest text-rouge">
             Breaking
@@ -84,19 +84,24 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="w-full bg-white px-6 py-8 lg:px-10 xl:px-14">
-        <section className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]" aria-labelledby="top-story">
+      <div className="w-full bg-[#fffefa] px-6 py-10 ring-1 ring-stone-divider/80 lg:px-10 xl:px-14">
+        <section className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_360px]" aria-labelledby="top-story">
           <div>
-            <div className="mb-4 flex items-center gap-3">
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
               <span className="h-0.5 w-8 bg-rouge" aria-hidden="true" />
               <p className="font-sans text-label-lg font-medium uppercase tracking-[0.24em] text-rouge">
                 Featured story
+              </p>
+              </div>
+              <p className="hidden font-sans text-[0.65rem] uppercase tracking-[0.22em] text-stone-editorial sm:block">
+                Visual report / analysis
               </p>
             </div>
             <HeroArticle article={heroArticle} />
           </div>
 
-          <aside className="border-t border-stone-divider pt-6 xl:border-t-0 xl:border-l xl:pl-8 xl:pt-0">
+          <aside className="border-t border-stone-divider bg-parchment/40 p-5 pt-6 xl:border-t-0 xl:border-l xl:bg-transparent xl:p-0 xl:pl-8">
             <div className="mb-4 flex items-center gap-3 border-b border-stone-divider pb-4">
               <span className="font-sans text-label-lg text-rouge" aria-hidden="true">
                 ↗
@@ -110,9 +115,9 @@ export default async function Home() {
                 <Link
                   key={article.slug}
                   href={`/articles/${article.slug}`}
-                  className="group grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-b border-stone-divider py-4"
+                  className="group grid grid-cols-[2.3rem_minmax(0,1fr)] gap-4 border-b border-stone-divider py-4"
                 >
-                  <span className="font-display text-xl font-black text-stone-divider">
+                  <span className="font-display text-2xl font-black text-parchment-deep transition-colors group-hover:text-rouge-muted">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span>
@@ -129,7 +134,7 @@ export default async function Home() {
           </aside>
         </section>
 
-        <section className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_320px]">
+        <section className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_360px]">
           <div className="lg:col-span-3">
             <Suspense fallback={null}>
               <ArticleFilters articles={mainArticles} categories={categories} />

@@ -41,42 +41,54 @@ export function ArticleFilters({
   return (
     <section aria-labelledby="latest-stories">
       <div className="section-header">
-        <h2 id="latest-stories" className="section-title">
-          Dernières nouvelles
-        </h2>
+        <div>
+          <p className="mb-2 font-sans text-[0.62rem] uppercase tracking-[0.2em] text-rouge">
+            The briefing
+          </p>
+          <h2 id="latest-stories" className="section-title">
+            Dernières nouvelles
+          </h2>
+        </div>
         <p className="hidden items-center gap-2 font-sans text-[0.62rem] font-light uppercase tracking-[0.18em] text-stone-editorial/70 sm:flex">
           <span className="h-px w-5 bg-stone-border" aria-hidden="true" />
-          Filtrer la sélection
+          {filteredArticles.length} stories selected
         </p>
       </div>
 
-      <form className="mb-8 grid gap-4 border-b border-stone-divider pb-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-        <label className="grid gap-2">
-          <span className="eyebrow">Search articles</span>
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            type="search"
-            placeholder={topicQuery ? `Topic: ${topicQuery}` : "Rechercher…"}
-            className="search-input"
-          />
-        </label>
-        <label className="grid gap-2 md:min-w-52">
-          <span className="eyebrow">Category</span>
-          <select
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            className="search-input"
-          >
-            <option value="All">Tout</option>
-            {categories.map((categoryName) => (
-              <option key={categoryName} value={categoryName}>
-                {categoryName}
-              </option>
-            ))}
-          </select>
-        </label>
-      </form>
+      <div className="mb-8 grid gap-6 border-b border-stone-divider pb-6 xl:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)]">
+        <p className="body-editorial max-w-narrow text-[1rem]">
+          A curated sweep through the day&apos;s international agenda, mixing
+          fast reads, visual stories, and deeper context from the live RSS feed.
+        </p>
+
+        <form className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+          <label className="grid gap-2">
+            <span className="eyebrow">Search articles</span>
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              type="search"
+              placeholder={topicQuery ? `Topic: ${topicQuery}` : "Rechercher…"}
+              className="search-input"
+            />
+          </label>
+          <label className="grid gap-2 md:min-w-52">
+            <span className="eyebrow">Category</span>
+            <select
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              className="search-input"
+            >
+              <option value="All">Tout</option>
+              {categories.map((categoryName) => (
+                <option key={categoryName} value={categoryName}>
+                  {categoryName}
+                </option>
+              ))}
+            </select>
+          </label>
+        </form>
+      </div>
 
       <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-stone-divider pb-4">
         <span className="eyebrow mr-2">Categories</span>

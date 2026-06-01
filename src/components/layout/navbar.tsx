@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const navItems: {
   label: string;
@@ -23,10 +26,12 @@ const navItems: {
 ];
 
 export function Navbar() {
+  const activeTopic = useSearchParams().get("topic");
+
   return (
     <header className="w-full border-b border-stone-border bg-white">
-      <div className="flex h-6 items-center justify-between bg-ink px-6 font-sans text-[0.65rem] text-parchment/55">
-        <p>Monday, 1 June 2026</p>
+      <div className="flex h-7 items-center justify-between bg-ink px-6 font-sans text-[0.68rem] text-parchment/55 lg:px-10 xl:px-14">
+        <p className="tracking-wide">Monday, 1 June 2026</p>
         <div className="hidden items-center gap-4 sm:flex">
           <Link href="/" className="transition-colors hover:text-parchment">
             Subscribe
@@ -38,9 +43,9 @@ export function Navbar() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-6 py-5 lg:px-10 xl:px-14">
+      <div className="flex items-end justify-between gap-8 px-6 py-6 lg:px-10 xl:px-14">
         <Link href="/" className="min-w-0" aria-label="Paris Match homepage">
-          <div className="font-display text-3xl font-black uppercase leading-none tracking-[-0.04em] text-ink sm:text-4xl">
+          <div className="font-display text-4xl font-black uppercase leading-none tracking-[-0.055em] text-ink sm:text-5xl">
             Paris<span className="text-rouge">Match</span>
           </div>
           <div className="mt-1 flex items-center gap-2 font-sans text-[0.62rem] font-medium uppercase tracking-[0.38em] text-ink-muted">
@@ -49,14 +54,23 @@ export function Navbar() {
           </div>
         </Link>
 
+        <div className="hidden max-w-narrow border-l border-stone-divider pl-6 text-right lg:block">
+          <p className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-stone-editorial">
+            Edition spéciale
+          </p>
+          <p className="mt-1 font-serif text-sm italic text-ink-muted">
+            International reporting, curated with a Paris Match eye.
+          </p>
+        </div>
+
         <div className="flex items-center gap-4">
-          <button
-            type="button"
+          <Link
+            href="/#latest-stories"
             className="grid h-10 w-10 place-items-center text-xl text-ink transition-colors hover:text-rouge"
             aria-label="Search"
           >
             <span aria-hidden="true">⌕</span>
-          </button>
+          </Link>
           <Link href="/" className="btn-rouge hidden px-5 py-2.5 sm:inline-flex">
             S&apos;abonner
           </Link>
@@ -78,7 +92,11 @@ export function Navbar() {
           <Link
             key={item.label}
             href={item.href}
-            className={item.label === "All" ? "nav-link-active py-3" : "nav-link py-3"}
+            className={
+              activeTopic === item.query || (!activeTopic && item.label === "All")
+                ? "nav-link-active py-3"
+                : "nav-link py-3"
+            }
           >
             {item.label}
           </Link>

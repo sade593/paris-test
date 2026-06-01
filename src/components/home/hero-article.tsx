@@ -10,7 +10,7 @@ type HeroArticleProps = {
 
 export function HeroArticle({ article }: HeroArticleProps) {
   return (
-    <article className="group relative min-h-[460px] overflow-hidden bg-ink">
+    <article className="group relative min-h-[520px] overflow-hidden bg-ink ring-1 ring-ink/10">
       <div className="absolute inset-0 bg-parchment-warm">
         <Image
           src={article.imageUrl}
@@ -23,7 +23,7 @@ export function HeroArticle({ article }: HeroArticleProps) {
       </div>
       <div className="hero-overlay" />
 
-      <div className="absolute right-8 bottom-8 left-8 z-10 max-w-[720px] sm:right-auto">
+      <div className="absolute right-8 bottom-8 left-8 z-10 max-w-[760px] sm:right-auto lg:bottom-10 lg:left-10">
         <p className="mb-4 inline-flex bg-rouge px-3 py-1 font-sans text-[0.65rem] font-medium uppercase tracking-[0.1em] text-white">
           {article.category}
         </p>

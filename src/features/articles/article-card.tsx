@@ -12,7 +12,7 @@ type ArticleCardProps = {
 export function ArticleCard({ article, variant = "standard" }: ArticleCardProps) {
   if (variant === "lead") {
     return (
-      <article className="group relative grid min-h-full overflow-hidden border-t-2 border-ink bg-white md:grid-cols-[1.05fr_0.95fr]">
+      <article className="group relative grid min-h-full overflow-hidden border-t-2 border-ink bg-[#fbfaf7] md:grid-cols-[1.08fr_0.92fr]">
         <Link
           href={`/articles/${article.slug}`}
           className="relative block min-h-72 overflow-hidden bg-parchment-warm"
@@ -26,7 +26,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </Link>
-        <div className="flex flex-col p-6 md:p-8">
+        <div className="flex flex-col border-r border-b border-l border-stone-divider p-6 md:border-l-0 md:p-8">
           <div className="card-article-meta">
             <span>{article.category}</span>
             <span className="h-1 w-1 rounded-full bg-stone-border" aria-hidden="true" />
@@ -38,7 +38,15 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
             <Link href={`/articles/${article.slug}`}>{article.title}</Link>
           </h3>
           <p className="body-editorial clip-4 mb-6">{article.description}</p>
-          <p className="byline mt-auto uppercase">By {article.author}</p>
+          <div className="mt-auto flex items-center justify-between gap-4 border-t border-stone-divider pt-5">
+            <p className="byline uppercase">By {article.author}</p>
+            <Link
+              href={`/articles/${article.slug}`}
+              className="font-sans text-label uppercase tracking-widest text-rouge"
+            >
+              Lire <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </article>
     );
@@ -46,7 +54,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
 
   if (variant === "horizontal") {
     return (
-      <article className="group grid grid-cols-[128px_minmax(0,1fr)] gap-5 border-b border-stone-divider pb-6">
+      <article className="group grid grid-cols-[128px_minmax(0,1fr)] gap-5 border-b border-stone-divider bg-white/50 pb-6">
         <Link
           href={`/articles/${article.slug}`}
           className="relative aspect-[4/5] overflow-hidden bg-parchment-warm"
@@ -76,12 +84,12 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
 
   if (variant === "text") {
     return (
-      <article className="group flex min-h-64 flex-col border-t-2 border-rouge bg-parchment-warm p-6">
+      <article className="group flex min-h-72 flex-col border border-stone-divider border-t-2 border-t-rouge bg-parchment-warm p-6">
         <p className="category-label mb-4">{article.category}</p>
         <h3 className="headline-md mb-4 text-[1.45rem] transition-colors group-hover:text-rouge">
           <Link href={`/articles/${article.slug}`}>{article.title}</Link>
         </h3>
-        <p className="body-sm clip-4 mb-6">{article.description}</p>
+        <p className="body-sm clip-4 mb-6 text-ink-muted">{article.description}</p>
         <div className="mt-auto flex items-center justify-between gap-4">
           <p className="byline uppercase">By {article.author}</p>
           <Link
@@ -103,10 +111,10 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
           alt={article.title}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover opacity-45 transition-transform duration-700 group-hover:scale-105"
+          className="object-cover opacity-55 transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/10" />
-        <div className="relative z-10 flex min-h-96 flex-col p-6">
+        <div className="relative z-10 flex min-h-96 flex-col border-l-4 border-rouge p-6">
           <p className="category-label-dark mb-4">{article.category}</p>
           <h3 className="headline-white mb-4 text-display-md transition-colors group-hover:text-rouge-muted">
             <Link href={`/articles/${article.slug}`}>{article.title}</Link>
@@ -120,7 +128,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
   }
 
   return (
-    <article className="card-article group animate-fade-up">
+    <article className="card-article group animate-fade-up border-b border-stone-divider pb-6">
       <Link
         href={`/articles/${article.slug}`}
         className="card-article-image relative block"

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display, Source_Serif_4 } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 import { siteConfig } from "@/config/site";
@@ -48,7 +49,9 @@ export default function RootLayout({
       className={`${playfair.variable} ${sourceSerif.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <Navbar />
+        <Suspense fallback={null}>
+          <Navbar />
+        </Suspense>
         {children}
         <Footer />
       </body>

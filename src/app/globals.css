@@ -66,7 +66,10 @@
   }
 
   body {
-    background: #f7f3ec;
+    background:
+      linear-gradient(90deg, rgb(247 243 236 / 0.68) 0 1px, transparent 1px 100%),
+      #f4efe6;
+    background-size: 72px 72px;
     color: #0d0d0d;
     font-family: var(--font-dm-sans), system-ui, sans-serif;
   }
@@ -235,7 +238,7 @@
   }
 
   .section-header {
-    @apply mb-8 flex items-center justify-between border-t-2 border-ink py-4;
+    @apply mb-8 flex items-center justify-between border-t-2 border-ink py-5;
   }
 
   .section-title {
