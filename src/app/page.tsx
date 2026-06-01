@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { HeroArticle } from "@/components/home/hero-article";
 import { absoluteUrl, siteConfig } from "@/config/site";
@@ -130,7 +131,9 @@ export default async function Home() {
 
         <section className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_320px]">
           <div className="lg:col-span-3">
-            <ArticleFilters articles={mainArticles} categories={categories} />
+            <Suspense fallback={null}>
+              <ArticleFilters articles={mainArticles} categories={categories} />
+            </Suspense>
           </div>
 
           <aside className="lg:col-span-3 xl:col-span-1 xl:border-l xl:border-stone-divider xl:pl-8">

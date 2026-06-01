@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { Article } from "@/domain/article";
 import { ArticleCard } from "@/features/articles/article-card";
@@ -10,12 +11,17 @@ type ArticleFiltersProps = {
   categories: string[];
 };
 
-export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
+export function ArticleFilters({
+  articles,
+  categories,
+}: ArticleFiltersProps) {
+  const searchParams = useSearchParams();
+  const topicQuery = getTopicQuery(searchParams?.get("topic") ?? null);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
 
   const filteredArticles = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+    const normalizedQuery = (query || topicQuery).trim().toLowerCase();
 
     return articles.filter((article) => {
       const matchesCategory =
@@ -30,7 +36,7 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
 
       return matchesCategory && searchableText.includes(normalizedQuery);
     });
-  }, [articles, category, query]);
+  }, [articles, category, query, topicQuery]);
 
   return (
     <section aria-labelledby="latest-stories">
@@ -51,7 +57,7 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             type="search"
-            placeholder="Rechercher…"
+            placeholder={topicQuery ? `Topic: ${topicQuery}` : "Rechercher…"}
             className="search-input"
           />
         </label>
@@ -112,6 +118,23 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
       )}
     </section>
   );
+}
+
+const topicQueries: Record<string, string> = {
+  politics: "polit",
+  international: "international",
+  culture: "culture",
+  society: "soci",
+  technology: "tech",
+  environment: "climat",
+};
+
+function getTopicQuery(topic: string | null): string {
+  if (!topic) {
+    return "";
+  }
+
+  return topicQueries[topic] ?? "";
 }
 
 function getArticleVariant(

@@ -1,13 +1,25 @@
 import Link from "next/link";
 
-const navItems = [
-  "All",
-  "Politics",
-  "International",
-  "Culture",
-  "Society",
-  "Technology",
-  "Environment",
+const navItems: {
+  label: string;
+  href: string;
+  query?: string;
+}[] = [
+  { label: "All", href: "/" },
+  { label: "Politics", href: "/?topic=politics#latest-stories", query: "polit" },
+  {
+    label: "International",
+    href: "/?topic=international#latest-stories",
+    query: "international",
+  },
+  { label: "Culture", href: "/?topic=culture#latest-stories", query: "culture" },
+  { label: "Society", href: "/?topic=society#latest-stories", query: "soci" },
+  { label: "Technology", href: "/?topic=technology#latest-stories", query: "tech" },
+  {
+    label: "Environment",
+    href: "/?topic=environment#latest-stories",
+    query: "climat",
+  },
 ];
 
 export function Navbar() {
@@ -62,13 +74,13 @@ export function Navbar() {
         className="flex gap-7 overflow-x-auto border-t border-stone-divider px-6 lg:px-10 xl:px-14"
         aria-label="Primary"
       >
-        {navItems.map((item, index) => (
+        {navItems.map((item) => (
           <Link
-            key={item}
-            href={index === 0 ? "/" : `/#${item.toLowerCase()}`}
-            className={index === 0 ? "nav-link-active py-3" : "nav-link py-3"}
+            key={item.label}
+            href={item.href}
+            className={item.label === "All" ? "nav-link-active py-3" : "nav-link py-3"}
           >
-            {item}
+            {item.label}
           </Link>
         ))}
       </nav>
