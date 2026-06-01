@@ -68,13 +68,13 @@ The project is designed for strong discoverability and rich sharing previews:
 - Route-level metadata with meaningful titles and descriptions.
 - Open Graph metadata for article sharing.
 - Twitter Card metadata.
-- Canonical URLs.
-- JSON-LD structured data for article pages.
-- Homepage structured data describing the article list.
+- Canonical URLs using `NEXT_PUBLIC_SITE_URL` when provided.
+- `NewsArticle` JSON-LD structured data for article pages.
+- `ItemList` JSON-LD structured data for the homepage article list.
 - Semantic HTML with clear heading hierarchy.
 - Accessible links, dates, image alt text, and landmarks.
 
-The article detail pages are intended to expose `NewsArticle` structured data so search engines can better understand the editorial content.
+The article detail pages expose structured data so search engines and social platforms can better understand each story's headline, description, author, category, publication date, image, canonical URL, and original source.
 
 ## Performance Strategy
 
@@ -109,6 +109,14 @@ http://localhost:3001
 
 Ports `3000` and `3002` are intentionally avoided because they are reserved for other local projects.
 
+Optional environment variable:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-deployment-url.example
+```
+
+This value is used for canonical URLs, Open Graph URLs, and JSON-LD absolute links. If it is not set, the app defaults to `http://localhost:3001`.
+
 ## Scripts
 
 ```bash
@@ -122,11 +130,17 @@ npm run test:e2e
 
 ## Testing
 
-The test suite is planned around meaningful coverage rather than snapshot noise:
+The test suite focuses on meaningful behavior rather than snapshot noise:
 
 - **Unit tests**: RSS normalization, slug generation, missing-field fallbacks, and date handling.
-- **Integration tests**: homepage rendering, hero article display, search filtering, and category filtering.
+- **Integration tests**: article filtering by search query and category.
 - **End-to-end tests**: homepage-to-article navigation with Playwright.
+
+If Playwright browsers are not installed locally, run:
+
+```bash
+npx playwright install chromium
+```
 
 Before submitting the project, run:
 
@@ -154,11 +168,11 @@ docs: add project documentation
 Recommended feature branches:
 
 ```text
-codex/homepage
-codex/article-pages
-codex/seo
-codex/tests
-codex/docs-polish
+feature/homepage
+feature/article-pages
+feature/seo
+feature/tests
+feature/docs-polish
 ```
 
 Each feature can be pushed independently and opened as a pull request into `main`.
