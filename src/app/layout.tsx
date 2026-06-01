@@ -1,7 +1,28 @@
 import type { Metadata } from "next";
+import { DM_Sans, Playfair_Display, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
 import { siteConfig } from "@/config/site";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["400", "700", "900"],
+});
+
+const sourceSerif = Source_Serif_4({
+  subsets: ["latin"],
+  variable: "--font-source-serif",
+  weight: ["300", "400", "600"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  weight: ["300", "400", "500"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -22,8 +43,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html
+      lang="en"
+      className={`${playfair.variable} ${sourceSerif.variable} ${dmSans.variable} h-full antialiased`}
+    >
+      <body className="flex min-h-full flex-col">
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
