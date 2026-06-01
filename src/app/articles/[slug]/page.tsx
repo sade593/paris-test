@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
+import { ArticleCard } from "@/features/articles/article-card";
 import { formatArticleDate } from "@/features/articles/article-formatters";
 import { getArticleBySlug, getArticles } from "@/features/articles/article-queries";
 import {
@@ -76,107 +77,99 @@ export async function generateMetadata({
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const articles = await getArticles();
+  const article = articles.find((item) => item.slug === slug) ?? null;
 
   if (!article) {
     notFound();
   }
 
   const jsonLd = buildArticleJsonLd(article);
+  const relatedArticles = articles
+    .filter((item) => item.slug !== article.slug)
+    .slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-[#f8f6f1] text-neutral-950">
+    <main id="top" className="min-h-screen bg-parchment pt-16 text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <article>
-        <header className="bg-neutral-950 text-white">
-          <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:py-12">
-            <div className="order-2 pb-4 lg:order-1 lg:pb-10">
-              <Link
-                href="/"
-                className="text-sm font-semibold uppercase tracking-[0.22em] text-red-300 outline-none hover:text-white focus-visible:text-white"
-              >
-                Back to homepage
-              </Link>
-              <p className="mt-8 text-sm font-semibold uppercase tracking-[0.22em] text-red-300">
-                {article.category}
-              </p>
-              <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
-                {article.title}
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
-                {article.description}
-              </p>
-              <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-neutral-300">
-                <p className="font-semibold text-white">By {article.author}</p>
-                <span aria-hidden="true">/</span>
-                <time dateTime={article.publishedAt}>
-                  {formatArticleDate(article.publishedAt)}
-                </time>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="relative aspect-[4/3] overflow-hidden bg-neutral-800">
-                <Image
-                  src={article.imageUrl}
-                  alt={article.title}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 52vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
+        <div className="relative aspect-[16/8] w-full overflow-hidden bg-ink sm:aspect-[16/6]">
+          <Image
+            src={article.imageUrl}
+            alt={article.title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+
+        <header className="mx-auto max-w-article border-b border-stone-divider px-6 pt-10 pb-6">
+          <Link href="/" className="btn-ghost mb-8">
+            Back to homepage
+          </Link>
+          <p className="category-label mb-4">{article.category}</p>
+          <h1 className="headline-display mb-5 text-display-xl text-balance">
+            {article.title}
+          </h1>
+          <p className="body-editorial mb-6 font-serif text-[1.1rem] text-ink-muted">
+            {article.description}
+          </p>
+          <div className="divider-rouge mb-5" />
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <p className="byline uppercase">By {article.author}</p>
+            <span className="h-1 w-1 rounded-full bg-stone-border" aria-hidden="true" />
+            <time className="dateline" dateTime={article.publishedAt}>
+              {formatArticleDate(article.publishedAt)}
+            </time>
+            <span className="h-1 w-1 rounded-full bg-stone-border" aria-hidden="true" />
+            <p className="dateline">5 min de lecture</p>
           </div>
         </header>
 
-        <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[minmax(0,44rem)_18rem] lg:py-16">
-          <div className="bg-white p-6 shadow-sm sm:p-10">
-            <p className="text-xl leading-9 text-neutral-800 first-letter:float-left first-letter:mr-3 first-letter:text-7xl first-letter:font-semibold first-letter:leading-[0.85] first-letter:text-red-700">
+        <div className="mx-auto max-w-article px-6 py-10">
+          <div className="article-prose">
+            <p>
               {article.content}
             </p>
           </div>
-
-          <aside className="h-fit border border-neutral-200 bg-white p-6">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
-              Article details
-            </h2>
-            <dl className="mt-5 grid gap-4 text-sm">
-              <div>
-                <dt className="font-semibold text-neutral-950">Category</dt>
-                <dd className="mt-1 text-neutral-600">{article.category}</dd>
-              </div>
-              <div>
-                <dt className="font-semibold text-neutral-950">Published</dt>
-                <dd className="mt-1 text-neutral-600">
-                  <time dateTime={article.publishedAt}>
-                    {formatArticleDate(article.publishedAt)}
-                  </time>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-semibold text-neutral-950">Source</dt>
-                <dd className="mt-1">
-                  {article.sourceUrl ? (
-                    <a
-                      href={article.sourceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-semibold text-red-700 underline-offset-4 hover:underline"
-                    >
-                      Read on Le Monde
-                    </a>
-                  ) : (
-                    <span className="text-neutral-600">Le Monde RSS</span>
-                  )}
-                </dd>
-              </div>
-            </dl>
-          </aside>
         </div>
       </article>
+
+      <aside className="mx-auto max-w-article px-6 pb-4">
+        {article.sourceUrl ? (
+          <a
+            href={article.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-primary"
+          >
+            Read original source <span aria-hidden="true">→</span>
+          </a>
+        ) : null}
+      </aside>
+
+      {relatedArticles.length > 0 ? (
+        <section className="mx-auto max-w-editorial px-6 py-12" aria-labelledby="related-articles">
+          <div className="section-header">
+            <h2 id="related-articles" className="section-title">
+              Articles similaires
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+            {relatedArticles.map((relatedArticle) => (
+              <ArticleCard key={relatedArticle.slug} article={relatedArticle} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <a href="#top" className="btn-primary fixed right-6 bottom-6 p-3" aria-label="Back to top">
+        ↑
+      </a>
     </main>
   );
 }

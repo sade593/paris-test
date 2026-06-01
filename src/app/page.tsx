@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
+import { HeroArticle } from "@/components/home/hero-article";
 import { absoluteUrl, siteConfig } from "@/config/site";
+import { ArticleCardCompact } from "@/features/articles/article-card-compact";
 import { ArticleFilters } from "@/features/articles/article-filters";
-import { formatArticleDate } from "@/features/articles/article-formatters";
+import { ArticleFeatured } from "@/features/articles/article-featured";
 import { getArticles, getCategories } from "@/features/articles/article-queries";
 import { buildHomepageJsonLd } from "@/features/articles/article-seo";
 
@@ -34,20 +35,24 @@ export const metadata: Metadata = {
 export default async function Home() {
   const articles = await getArticles();
   const [heroArticle, ...secondaryArticles] = articles;
+  const mainArticles = secondaryArticles.slice(0, 9);
+  const sidebarArticles = secondaryArticles.slice(9, 15);
+  const featuredArticles = secondaryArticles.slice(15, 19);
+  const breakingArticle = secondaryArticles[0] ?? heroArticle;
   const categories = getCategories(articles);
   const jsonLd = buildHomepageJsonLd(articles);
 
   if (!heroArticle) {
     return (
-      <main className="grid min-h-screen place-items-center bg-neutral-950 px-5 text-white">
+      <main className="grid min-h-screen place-items-center bg-ink px-5 pt-16 text-parchment">
         <div className="max-w-xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-300">
+          <p className="category-label-dark">
             Paris Match
           </p>
-          <h1 className="mt-4 text-4xl font-semibold">
+          <h1 className="headline-white mt-4 text-display-lg">
             No articles are available right now.
           </h1>
-          <p className="mt-4 text-neutral-300">
+          <p className="body-sm mt-4 text-parchment/70">
             Please try again later while the newsroom feed refreshes.
           </p>
         </div>
@@ -56,69 +61,90 @@ export default async function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-white text-neutral-950">
+    <main className="min-h-screen bg-parchment pt-16 text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <section className="bg-neutral-950 text-white" aria-labelledby="top-story">
-        <div className="mx-auto grid min-h-[86vh] w-full max-w-7xl items-end gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:py-10">
-          <div className="pb-6 lg:pb-12">
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-red-300">
-              Paris Match / International
-            </p>
-            <h1
-              id="top-story"
-              className="mt-5 max-w-4xl text-5xl font-semibold leading-none tracking-tight sm:text-7xl lg:text-8xl"
-            >
-              The world in focus
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
-              A fast, visual digest of international reporting, refreshed from
-              Le Monde and shaped for an editorial reading experience.
-            </p>
-          </div>
 
-          <article className="border border-white/15 bg-white text-neutral-950">
-            <Link
-              href={`/articles/${heroArticle.slug}`}
-              className="group block outline-none"
-              aria-label={`Read top story: ${heroArticle.title}`}
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-neutral-200">
-                <Image
-                  src={heroArticle.imageUrl}
-                  alt=""
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 45vw, 100vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-5 sm:p-7">
-                <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-red-700">
-                  <span>{heroArticle.category}</span>
-                  <span aria-hidden="true">/</span>
-                  <time dateTime={heroArticle.publishedAt}>
-                    {formatArticleDate(heroArticle.publishedAt)}
-                  </time>
-                </div>
-                <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-                  {heroArticle.title}
-                </h2>
-                <p className="mt-4 text-base leading-7 text-neutral-600">
-                  {heroArticle.description}
-                </p>
-                <p className="mt-5 text-sm font-semibold text-neutral-950">
-                  By {heroArticle.author}
-                </p>
-              </div>
-            </Link>
-          </article>
+      <section className="bg-ink px-6 py-2 text-parchment" aria-label="Breaking news">
+        <div className="mx-auto flex max-w-editorial items-center gap-4 overflow-hidden">
+          <span className="font-sans text-label-lg font-medium uppercase tracking-widest text-rouge">
+            Breaking
+          </span>
+          <Link
+            href={`/articles/${breakingArticle.slug}`}
+            className="truncate font-sans text-[0.75rem] text-parchment/80 transition-colors hover:text-parchment"
+          >
+            {breakingArticle.title}
+          </Link>
         </div>
       </section>
 
-      <ArticleFilters articles={secondaryArticles} categories={categories} />
+      <section className="mx-auto max-w-editorial px-6 pt-8 pb-12" aria-labelledby="top-story">
+        <HeroArticle article={heroArticle} />
+      </section>
+
+      <section className="mx-auto grid max-w-editorial grid-cols-1 gap-8 px-6 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_320px]">
+        <div className="lg:col-span-3">
+          <ArticleFilters articles={mainArticles} categories={categories} />
+        </div>
+
+        <aside className="lg:col-span-3 xl:col-span-1">
+          <div className="section-header">
+            <h2 className="section-title">À la une</h2>
+          </div>
+          <div>
+            {sidebarArticles.map((article) => (
+              <ArticleCardCompact key={article.slug} article={article} />
+            ))}
+          </div>
+
+          <div className="divider-rouge my-6" />
+
+          <form className="bg-ink p-6">
+            <h2 className="headline-white mb-2 text-lg">Newsletter</h2>
+            <p className="body-sm mb-4 text-sm text-parchment/60">
+              Receive the essential international stories in a concise editorial
+              briefing.
+            </p>
+            <label className="sr-only" htmlFor="newsletter-email">
+              Email
+            </label>
+            <input
+              id="newsletter-email"
+              type="email"
+              placeholder="Email address"
+              className="search-input mb-3 border-white/20 text-parchment placeholder:text-parchment/40 focus:border-parchment"
+            />
+            <button type="submit" className="btn-rouge w-full justify-center">
+              Subscribe
+            </button>
+          </form>
+        </aside>
+      </section>
+
+      {featuredArticles.length > 0 ? (
+        <section
+          id="monde"
+          className="mx-auto mt-12 max-w-editorial px-6"
+          aria-labelledby="politics-section"
+        >
+          <div className="section-header">
+            <h2 id="politics-section" className="section-title">
+              Monde & Politique
+            </h2>
+            <Link href="/" className="btn-ghost text-sm">
+              Voir tout <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredArticles.map((article) => (
+              <ArticleFeatured key={article.slug} article={article} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

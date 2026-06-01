@@ -33,64 +33,79 @@ export function ArticleFilters({ articles, categories }: ArticleFiltersProps) {
   }, [articles, category, query]);
 
   return (
-    <section
-      className="border-t border-neutral-200 bg-neutral-50 py-12 sm:py-16"
-      aria-labelledby="latest-stories"
-    >
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
-        <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-700">
-              Latest coverage
-            </p>
-            <h2
-              id="latest-stories"
-              className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl"
-            >
-              International stories, filtered your way
-            </h2>
-          </div>
-          <form className="grid gap-3 sm:grid-cols-[minmax(0,18rem)_12rem]">
-            <label className="grid gap-2 text-sm font-medium text-neutral-800">
-              <span>Search articles</span>
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                type="search"
-                placeholder="Title, author, description"
-                className="h-11 border border-neutral-300 bg-white px-3 text-base text-neutral-950 outline-none transition focus:border-red-700 focus:ring-2 focus:ring-red-700/20"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-medium text-neutral-800">
-              <span>Category</span>
-              <select
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                className="h-11 border border-neutral-300 bg-white px-3 text-base text-neutral-950 outline-none transition focus:border-red-700 focus:ring-2 focus:ring-red-700/20"
-              >
-                <option value="All">All</option>
-                {categories.map((categoryName) => (
-                  <option key={categoryName} value={categoryName}>
-                    {categoryName}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </form>
-        </div>
-
-        {filteredArticles.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {filteredArticles.map((article) => (
-              <ArticleCard key={article.slug} article={article} />
-            ))}
-          </div>
-        ) : (
-          <p className="border border-neutral-200 bg-white p-8 text-neutral-700">
-            No articles match the selected filters.
-          </p>
-        )}
+    <section aria-labelledby="latest-stories">
+      <div className="section-header">
+        <h2 id="latest-stories" className="section-title">
+          Dernières nouvelles
+        </h2>
+        <p className="eyebrow hidden sm:block">Filtrer la sélection</p>
       </div>
+
+      <form className="mb-8 grid gap-4 border-b border-stone-divider pb-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+        <label className="grid gap-2">
+          <span className="eyebrow">Search articles</span>
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            type="search"
+            placeholder="Rechercher…"
+            className="search-input"
+          />
+        </label>
+        <label className="grid gap-2 md:min-w-52">
+          <span className="eyebrow">Category</span>
+          <select
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+            className="search-input"
+          >
+            <option value="All">Tout</option>
+            {categories.map((categoryName) => (
+              <option key={categoryName} value={categoryName}>
+                {categoryName}
+              </option>
+            ))}
+          </select>
+        </label>
+      </form>
+
+      <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-stone-divider pb-4">
+        <span className="eyebrow mr-2">Categories</span>
+        <button
+          type="button"
+          onClick={() => setCategory("All")}
+          className={category === "All" ? "tag-active" : "tag"}
+        >
+          Tout
+        </button>
+        {categories.map((categoryName) => (
+          <button
+            key={categoryName}
+            type="button"
+            onClick={() => setCategory(categoryName)}
+            className={category === categoryName ? "tag-active" : "tag"}
+          >
+            {categoryName}
+          </button>
+        ))}
+      </div>
+
+      {filteredArticles.length > 0 ? (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredArticles.map((article, index) => (
+            <div
+              key={article.slug}
+              style={{ animationDelay: `${Math.min(index, 8) * 0.05}s` }}
+            >
+              <ArticleCard article={article} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="border border-stone-border bg-parchment-warm p-8 font-serif text-stone-editorial">
+          No articles match the selected filters.
+        </p>
+      )}
     </section>
   );
 }

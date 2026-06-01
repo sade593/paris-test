@@ -10,42 +10,50 @@ type ArticleCardProps = {
 
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
-    <article className="group grid h-full grid-rows-[auto_1fr] overflow-hidden border border-neutral-200 bg-white">
+    <article className="card-article group animate-fade-up">
       <Link
         href={`/articles/${article.slug}`}
-        className="relative block aspect-[4/3] overflow-hidden bg-neutral-100"
+        className="card-article-image relative block"
         aria-label={`Read ${article.title}`}
       >
         <Image
           src={article.imageUrl}
-          alt=""
+          alt={article.title}
           fill
-          sizes="(min-width: 1024px) 31vw, (min-width: 640px) 45vw, 100vw"
-          className="object-cover transition duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
       </Link>
-      <div className="flex flex-col gap-4 p-5">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-red-700">
+      <div className="flex flex-1 flex-col">
+        <div className="card-article-meta">
           <span>{article.category}</span>
-          <span aria-hidden="true">/</span>
-          <time dateTime={article.publishedAt}>
+          <span className="h-1 w-1 rounded-full bg-stone-border" aria-hidden="true" />
+          <time className="dateline" dateTime={article.publishedAt}>
             {formatArticleDate(article.publishedAt)}
           </time>
         </div>
-        <h3 className="text-xl font-semibold leading-tight text-neutral-950">
+        <h3 className="headline-sm clip-2 mb-2 text-[1.125rem] transition-colors duration-200 group-hover:text-rouge">
           <Link
             href={`/articles/${article.slug}`}
-            className="outline-none hover:text-red-700 focus-visible:text-red-700"
+            className="outline-none focus-visible:text-rouge"
           >
             {article.title}
           </Link>
         </h3>
-        <p className="line-clamp-3 text-sm leading-6 text-neutral-600">
+        <p className="body-sm clip-article mb-3">
           {article.description}
         </p>
-        <p className="mt-auto text-sm font-medium text-neutral-900">
+        <p className="byline mt-auto uppercase">
           By {article.author}
         </p>
+        <div className="divider-editorial mt-4 pt-4">
+          <Link
+            href={`/articles/${article.slug}`}
+            className="font-sans text-label uppercase tracking-widest text-rouge"
+          >
+            Read more <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
     </article>
   );
