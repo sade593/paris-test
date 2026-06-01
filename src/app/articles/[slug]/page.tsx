@@ -142,8 +142,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 alt={article.title}
                 fill
                 priority
-                quality={95}
-                sizes="(max-width: 1024px) 100vw, 56vw"
+                quality={82}
+                sizes="(max-width: 1024px) calc(100vw - 2rem), 56vw"
                 className="object-contain"
               />
             </div>

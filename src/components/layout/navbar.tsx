@@ -1,7 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+import { TopicNavLinks } from "@/components/layout/topic-nav-links";
 
 const navItems: {
   label: string;
@@ -26,8 +26,6 @@ const navItems: {
 ];
 
 export function Navbar() {
-  const activeTopic = useSearchParams().get("topic");
-
   return (
     <header className="w-full border-b border-stone-border bg-white">
       <div className="flex h-7 items-center justify-between bg-ink px-6 font-sans text-[0.68rem] text-parchment/55 lg:px-10 xl:px-14">
@@ -88,20 +86,26 @@ export function Navbar() {
         className="flex gap-7 overflow-x-auto border-t border-stone-divider px-6 lg:px-10 xl:px-14"
         aria-label="Primary"
       >
-        {navItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className={
-              activeTopic === item.query || (!activeTopic && item.label === "All")
-                ? "nav-link-active py-3"
-                : "nav-link py-3"
-            }
-          >
-            {item.label}
-          </Link>
-        ))}
+        <Suspense fallback={<StaticTopicNavLinks />}>
+          <TopicNavLinks items={navItems} />
+        </Suspense>
       </nav>
     </header>
+  );
+}
+
+function StaticTopicNavLinks() {
+  return (
+    <>
+      {navItems.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          className={item.label === "All" ? "nav-link-active py-3" : "nav-link py-3"}
+        >
+          {item.label}
+        </Link>
+      ))}
+    </>
   );
 }

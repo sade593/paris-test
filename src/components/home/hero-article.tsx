@@ -16,7 +16,8 @@ export function HeroArticle({ article }: HeroArticleProps) {
           src={article.imageUrl}
           alt={article.title}
           fill
-          sizes="100vw"
+          sizes="(max-width: 1279px) calc(100vw - 3rem), calc(100vw - 31rem)"
+          quality={78}
           className="object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
           priority
         />
