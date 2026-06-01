@@ -1,16 +1,41 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { absoluteUrl, siteConfig } from "@/config/site";
 import { ArticleFilters } from "@/features/articles/article-filters";
 import { formatArticleDate } from "@/features/articles/article-formatters";
 import { getArticles, getCategories } from "@/features/articles/article-queries";
+import { buildHomepageJsonLd } from "@/features/articles/article-seo";
 
 export const revalidate = 1800;
+
+export const metadata: Metadata = {
+  title: "International News in Focus",
+  description: siteConfig.description,
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+  openGraph: {
+    title: "International News in Focus",
+    description: siteConfig.description,
+    url: absoluteUrl("/"),
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "International News in Focus",
+    description: siteConfig.description,
+  },
+};
 
 export default async function Home() {
   const articles = await getArticles();
   const [heroArticle, ...secondaryArticles] = articles;
   const categories = getCategories(articles);
+  const jsonLd = buildHomepageJsonLd(articles);
 
   if (!heroArticle) {
     return (
@@ -32,6 +57,10 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-white text-neutral-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className="bg-neutral-950 text-white" aria-labelledby="top-story">
         <div className="mx-auto grid min-h-[86vh] w-full max-w-7xl items-end gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:py-10">
           <div className="pb-6 lg:pb-12">
