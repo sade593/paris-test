@@ -23,6 +23,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
             src={article.imageUrl}
             alt={article.title}
             fill
+            quality={60}
             sizes="(max-width: 1024px) 100vw, 45vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -60,6 +61,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
             src={article.imageUrl}
             alt={article.title}
             fill
+            quality={60}
             sizes="128px"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -90,6 +92,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
             src={article.imageUrl}
             alt={article.title}
             fill
+            quality={60}
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -117,6 +120,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
             src={article.imageUrl}
             alt={article.title}
             fill
+            quality={60}
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover opacity-55 transition-transform duration-700 group-hover:scale-105"
           />
@@ -149,6 +153,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
           src={article.imageUrl}
           alt={article.title}
           fill
+          quality={60}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />

@@ -19,6 +19,7 @@ export function ArticleCardCompact({ article }: ArticleCardCompactProps) {
           src={article.imageUrl}
           alt={article.title}
           fill
+          quality={60}
           sizes="96px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
