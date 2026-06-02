@@ -10,7 +10,7 @@ type HeroArticleProps = {
 
 export function HeroArticle({ article }: HeroArticleProps) {
   return (
-    <article className="group relative min-h-[420px] overflow-hidden bg-ink ring-1 ring-ink/10 md:min-h-[520px]">
+    <article className="group relative min-h-[460px] overflow-hidden bg-ink ring-1 ring-ink/10 md:min-h-[620px]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(200,16,46,0.32),transparent_32%),linear-gradient(135deg,#0d0d0d_0%,#15100f_48%,#3a0712_100%)] md:hidden" />
       <div className="absolute inset-0 hidden bg-parchment-warm md:block">
         <Image
@@ -24,11 +24,11 @@ export function HeroArticle({ article }: HeroArticleProps) {
       </div>
       <div className="hero-overlay" />
 
-      <div className="absolute right-6 bottom-7 left-6 z-10 max-w-[760px] sm:right-auto md:right-8 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10">
+      <div className="absolute right-6 bottom-7 left-6 z-10 max-w-[860px] sm:right-auto md:right-8 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10">
         <p className="mb-4 inline-flex bg-rouge px-3 py-1 font-sans text-[0.65rem] font-medium uppercase tracking-[0.1em] text-white">
           {article.category}
         </p>
-        <h1 className="headline-white mb-3 max-w-[700px] text-balance text-[clamp(2rem,3.8vw,3.35rem)]">
+        <h1 className="headline-white mb-3 max-w-[820px] text-balance text-[clamp(1.85rem,3.1vw,2.85rem)]">
           {article.title}
         </h1>
         <p className="body-sm clip-2 mb-5 font-serif text-base text-parchment/85">

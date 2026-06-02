@@ -156,15 +156,12 @@ function getTopicCategory(topic: string | null): string {
 
 function getArticleVariant(
   index: number,
-): "standard" | "lead" | "horizontal" | "text" | "dark" {
+): "standard" | "lead" | "horizontal" {
   const variants = [
     "lead",
-    "text",
     "standard",
-    "dark",
     "horizontal",
     "standard",
-    "text",
     "horizontal",
     "standard",
   ] as const;
@@ -175,14 +172,13 @@ function getArticleVariant(
 function getArticlePlacement(index: number): string {
   const placements = [
     "lg:col-span-6",
-    "lg:col-span-2",
-    "lg:col-span-2",
-    "lg:col-span-2",
     "lg:col-span-3",
     "lg:col-span-3",
     "lg:col-span-2",
     "lg:col-span-2",
     "lg:col-span-2",
+    "lg:col-span-3",
+    "lg:col-span-3",
   ];
 
   return `animate-fade-up ${placements[index % placements.length]}`;
