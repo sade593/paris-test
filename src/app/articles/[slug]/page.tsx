@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ReadingProgress } from "@/components/article/reading-progress";
 import { siteConfig } from "@/config/site";
 import { ArticleCard } from "@/features/articles/article-card";
 import { formatArticleDate } from "@/features/articles/article-formatters";
@@ -94,122 +95,82 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <main id="top" className="min-h-screen bg-[#fffefa] text-ink">
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <article>
-        <header className="grid min-h-[calc(100vh-8rem)] border-b border-stone-divider lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="flex flex-col justify-between bg-parchment px-6 py-10 lg:px-10 xl:px-14">
-            <div>
-              <Link href="/" className="btn-ghost mb-12">
-                Back to homepage
-              </Link>
-              <p className="category-label mb-5">{article.category}</p>
-              <h1 className="headline-display mb-6 max-w-[12ch] text-balance text-[clamp(2.25rem,4.6vw,4.65rem)]">
-                {article.title}
-              </h1>
-              <p className="body-editorial max-w-2xl text-[1.18rem] text-ink-muted">
-                {article.description}
-              </p>
-            </div>
-
-            <div className="mt-12 border-t border-stone-border pt-6">
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-                <p className="font-sans text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ink">
-                  By {article.author}
-                </p>
-                <span className="h-1 w-1 rounded-full bg-rouge" aria-hidden="true" />
-                <time className="dateline" dateTime={article.publishedAt}>
-                  {formatArticleDate(article.publishedAt)}
-                </time>
-                <span className="h-1 w-1 rounded-full bg-stone-border" aria-hidden="true" />
-                <p className="dateline">5 min de lecture</p>
-              </div>
-              <div className="mt-6 flex items-center gap-3">
-                <span className="h-0.5 w-10 bg-rouge" aria-hidden="true" />
-                <p className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-stone-editorial">
-                  Paris Match / Visual story
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <figure className="flex min-h-[520px] flex-col justify-center bg-[#eee7dc] p-5 lg:p-10">
-            <div className="mb-5 flex items-center justify-between gap-4">
-              <span className="h-0.5 w-12 bg-rouge" aria-hidden="true" />
-              <span className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-stone-editorial">
-                Photo dispatch
-              </span>
-            </div>
-            <div className="relative aspect-[16/10] w-full overflow-hidden border border-stone-border bg-[#f8f5ef] shadow-[0_24px_70px_rgba(13,13,13,0.14)] xl:aspect-[16/9]">
+        <figure className="border-b border-stone-divider bg-[#eee7dc] px-6 pt-8 pb-5 lg:px-10 xl:px-14">
+          <div className="mx-auto max-w-editorial">
+            <div className="relative aspect-[16/7] w-full overflow-hidden bg-parchment-warm">
               <Image
                 src={article.imageUrl}
                 alt={article.title}
                 fill
                 priority
                 quality={82}
-                sizes="(max-width: 1024px) calc(100vw - 2rem), 56vw"
-                className="object-contain"
+                sizes="100vw"
+                className="object-cover"
               />
             </div>
-            <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-stone-border pt-4 font-sans text-[0.68rem] uppercase tracking-[0.14em] text-stone-editorial">
+            <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-3 font-sans text-[0.68rem] uppercase tracking-[0.14em] text-stone-editorial">
               <span>Image source: Le Monde RSS</span>
               <span>{article.category}</span>
             </figcaption>
-          </figure>
+          </div>
+        </figure>
+
+        <header className="mx-auto max-w-article border-b border-stone-divider px-6 py-10">
+          <nav
+            className="mb-8 flex min-w-0 flex-wrap items-center gap-2 font-sans text-[0.68rem] uppercase tracking-[0.14em] text-stone-editorial"
+            aria-label="Breadcrumb"
+          >
+            <Link href="/" className="transition-colors hover:text-rouge">
+              Accueil
+            </Link>
+            <span aria-hidden="true">/</span>
+            <Link
+              href={`/?topic=${article.category.toLowerCase()}#latest-stories`}
+              className="transition-colors hover:text-rouge"
+            >
+              {article.category}
+            </Link>
+            <span aria-hidden="true">/</span>
+            <span className="max-w-[28ch] truncate text-ink-muted">
+              {article.title}
+            </span>
+          </nav>
+
+          <p className="category-label mb-4">{article.category}</p>
+          <h1 className="headline-display mb-6 text-balance text-[clamp(2rem,3.5vw,3rem)]">
+            {article.title}
+          </h1>
+          <p className="body-editorial mb-7 text-[1.12rem] text-ink-muted">
+            {article.description}
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 border-t border-stone-border pt-5 sm:gap-6">
+            <p className="font-sans text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ink">
+              By {article.author}
+            </p>
+            <span className="h-1 w-1 rounded-full bg-rouge" aria-hidden="true" />
+            <time className="dateline" dateTime={article.publishedAt}>
+              {formatArticleDate(article.publishedAt)}
+            </time>
+            <span className="h-1 w-1 rounded-full bg-stone-border" aria-hidden="true" />
+            <p className="dateline">5 min de lecture</p>
+          </div>
         </header>
 
-        <div className="grid border-b border-stone-divider lg:grid-cols-[minmax(0,1fr)_minmax(0,720px)_minmax(280px,0.42fr)]">
-          <aside className="hidden border-r border-stone-divider px-8 py-14 xl:block">
-            <div className="sticky top-8">
-              <p className="mb-4 font-sans text-[0.65rem] uppercase tracking-[0.2em] text-rouge">
-                Story file
-              </p>
-              <dl className="space-y-5 border-t border-stone-divider pt-5">
-                <div>
-                  <dt className="eyebrow mb-1">Category</dt>
-                  <dd className="font-display text-xl font-bold text-ink">
-                    {article.category}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="eyebrow mb-1">Published</dt>
-                  <dd className="font-serif text-sm text-ink-muted">
-                    {formatArticleDate(article.publishedAt)}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="eyebrow mb-1">Source</dt>
-                  <dd>
-                    {article.sourceUrl ? (
-                      <a
-                        href={article.sourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-sans text-label uppercase tracking-widest text-rouge"
-                      >
-                        Le Monde <span aria-hidden="true">→</span>
-                      </a>
-                    ) : (
-                      <span className="font-serif text-sm text-ink-muted">
-                        Le Monde RSS
-                      </span>
-                    )}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </aside>
-
-          <div className="px-6 py-14 lg:px-10">
+        <div className="mx-auto max-w-article border-b border-stone-divider px-6 py-14">
             <div className="article-prose">
-              <p className="text-[1.18rem] leading-[1.9] first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-7xl first-letter:font-black first-letter:leading-[0.82] first-letter:text-rouge">
+              <p className="text-[1.18rem] leading-[1.9] first-letter:float-left first-letter:mr-4 first-letter:font-display first-letter:text-7xl first-letter:font-black first-letter:leading-[0.82] first-letter:text-rouge">
                 {article.content}
               </p>
             </div>
 
-            <blockquote className="my-12 border-y border-rouge py-8 font-display text-3xl font-black leading-tight text-ink">
+            <blockquote className="my-10 border-l-4 border-rouge pl-6 font-display text-[1.4rem] font-black leading-tight text-ink italic">
               “Images, context and emotion shape how this story lands.”
             </blockquote>
 
@@ -218,43 +179,42 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 href={article.sourceUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-primary"
+                className="btn-rouge"
               >
                 Read original source <span aria-hidden="true">→</span>
               </a>
             ) : null}
-          </div>
-
-          <aside className="border-t border-stone-divider bg-parchment/45 px-6 py-10 lg:border-t-0 lg:border-l lg:px-8">
-            <div className="sticky top-8">
-              <div className="section-header mb-4">
-                <h2 className="section-title">More stories</h2>
-              </div>
-              <div className="space-y-0">
-                {moreArticles.map((item, index) => (
-                  <Link
-                    key={item.slug}
-                    href={`/articles/${item.slug}`}
-                    className="group grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-b border-stone-divider py-4"
-                  >
-                    <span className="font-display text-xl font-black text-parchment-deep group-hover:text-rouge-muted">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span>
-                      <span className="category-label mb-1 inline-block">
-                        {item.category}
-                      </span>
-                      <span className="headline-sm clip-2 block text-[1rem] transition-colors group-hover:text-rouge">
-                        {item.title}
-                      </span>
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </aside>
         </div>
       </article>
+
+      {moreArticles.length > 0 ? (
+        <aside className="mx-auto max-w-article px-6 py-12" aria-labelledby="more-stories">
+          <div className="section-header mb-2">
+            <h2 id="more-stories" className="section-title">More stories</h2>
+          </div>
+          <div>
+            {moreArticles.map((item, index) => (
+              <Link
+                key={item.slug}
+                href={`/articles/${item.slug}`}
+                className="group grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-b border-stone-divider py-4"
+              >
+                <span className="font-display text-xl font-black text-parchment-deep group-hover:text-rouge-muted">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span>
+                  <span className="category-label mb-1 inline-block">
+                    {item.category}
+                  </span>
+                  <span className="headline-sm clip-2 block text-[1rem] transition-colors group-hover:text-rouge">
+                    {item.title}
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </aside>
+      ) : null}
 
       {relatedArticles.length > 0 ? (
         <section className="px-6 py-14 lg:px-10 xl:px-14" aria-labelledby="related-articles">

@@ -9,7 +9,8 @@ test("reader can open an article from the homepage", async ({ page }) => {
   await firstArticle.click();
 
   await expect(page).toHaveURL(/\/articles\//);
-  await expect(page.getByRole("link", { name: "Back to homepage" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Accueil" })).toBeVisible();
 });
 
 test("top navigation filters the article section by topic", async ({ page }) => {
