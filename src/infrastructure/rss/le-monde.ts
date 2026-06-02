@@ -9,6 +9,8 @@ import {
 
 const LE_MONDE_RSS_URL = "https://www.lemonde.fr/international/rss_full.xml";
 const FEED_REVALIDATE_SECONDS = 60 * 30;
+const LE_MONDE_IMAGE_TARGET_WIDTH = 1600;
+const LE_MONDE_IMAGE_TARGET_QUALITY = 90;
 
 type RssItem = Record<string, unknown>;
 
@@ -64,7 +66,9 @@ function normalizeRssItem(item: RssItem, index: number): Article {
     item["dc:creator"] ?? item.author,
     DEFAULT_ARTICLE_AUTHOR,
   );
-  const imageUrl = extractImageUrl(item) ?? FALLBACK_ARTICLE_IMAGE;
+  const imageUrl = enhanceLeMondeImageUrl(
+    extractImageUrl(item) ?? FALLBACK_ARTICLE_IMAGE,
+  );
 
   return {
     slug: buildSlug(title, sourceUrl || String(index)),
@@ -196,6 +200,58 @@ function extractImageUrl(item: RssItem): string | null {
   }
 
   return null;
+}
+
+function enhanceLeMondeImageUrl(imageUrl: string): string {
+  if (!imageUrl.startsWith("https://img.lemde.fr/")) {
+    return imageUrl;
+  }
+
+  try {
+    const url = new URL(imageUrl);
+    const segments = url.pathname.split("/");
+    const numericStartIndex = findLeMondeImageNumericStart(segments);
+
+    if (numericStartIndex === -1) {
+      return imageUrl;
+    }
+
+    const outputWidthIndex = numericStartIndex + 4;
+    const outputHeightIndex = numericStartIndex + 5;
+    const qualityIndex = numericStartIndex + 6;
+    const currentWidth = Number(segments[outputWidthIndex]);
+    const currentHeight = Number(segments[outputHeightIndex]);
+
+    if (!currentWidth || !currentHeight) {
+      return imageUrl;
+    }
+
+    const aspectRatio = currentHeight / currentWidth;
+    segments[outputWidthIndex] = String(LE_MONDE_IMAGE_TARGET_WIDTH);
+    segments[outputHeightIndex] = String(
+      Math.round(LE_MONDE_IMAGE_TARGET_WIDTH * aspectRatio),
+    );
+    segments[qualityIndex] = String(LE_MONDE_IMAGE_TARGET_QUALITY);
+    url.pathname = segments.join("/");
+
+    return url.toString();
+  } catch {
+    return imageUrl;
+  }
+}
+
+function findLeMondeImageNumericStart(segments: string[]): number {
+  for (let index = 1; index <= segments.length - 9; index += 1) {
+    const maybeImageTransform = segments
+      .slice(index, index + 8)
+      .every((segment) => /^\d+$/.test(segment));
+
+    if (maybeImageTransform && !/^\d+$/.test(segments[index + 8] ?? "")) {
+      return index;
+    }
+  }
+
+  return -1;
 }
 
 function buildSlug(title: string, stableSeed: string): string {

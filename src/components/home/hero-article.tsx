@@ -18,7 +18,7 @@ export function HeroArticle({ article }: HeroArticleProps) {
           alt={article.title}
           fill
           sizes="(max-width: 1279px) calc(100vw - 3rem), calc(100vw - 31rem)"
-          quality={78}
+          quality={90}
           className="object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
         />
       </div>
