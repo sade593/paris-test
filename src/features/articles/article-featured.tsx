@@ -20,7 +20,7 @@ export function ArticleFeatured({ article }: ArticleFeaturedProps) {
           src={article.imageUrl}
           alt={article.title}
           fill
-          quality={60}
+          quality={70}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />

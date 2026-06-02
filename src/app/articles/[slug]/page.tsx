@@ -109,7 +109,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 alt={article.title}
                 fill
                 priority
-                quality={82}
+                quality={90}
                 sizes="100vw"
                 className="object-cover"
               />

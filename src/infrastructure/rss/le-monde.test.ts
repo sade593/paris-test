@@ -91,4 +91,22 @@ describe("parseLeMondeFeed", () => {
       "Politics",
     ]);
   });
+
+  it("requests larger Le Monde image renditions when RSS thumbnails are small", () => {
+    const articles = parseLeMondeFeed(`
+      <rss>
+        <channel>
+          <item>
+            <title>Une image trop petite</title>
+            <link>https://www.lemonde.fr/example/article-5.html</link>
+            <media:content url="https://img.lemde.fr/2026/06/02/259/0/4000/2000/644/322/60/0/story.jpg" />
+          </item>
+        </channel>
+      </rss>
+    `);
+
+    expect(articles[0].imageUrl).toBe(
+      "https://img.lemde.fr/2026/06/02/259/0/4000/2000/1600/800/90/0/story.jpg",
+    );
+  });
 });
