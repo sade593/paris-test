@@ -143,7 +143,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
   }
 
   return (
-    <article className="card-article group animate-fade-up border-b border-stone-divider pb-6">
+    <article className="card-article group border-b border-stone-divider pb-6">
       <Link
         href={`/articles/${article.slug}`}
         className="card-article-image relative block"
@@ -153,7 +153,7 @@ export function ArticleCard({ article, variant = "standard" }: ArticleCardProps)
           src={article.imageUrl}
           alt={article.title}
           fill
-          quality={70}
+          quality={60}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />

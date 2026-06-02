@@ -119,10 +119,7 @@ export function ArticleFilters({
       {filteredArticles.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {filteredArticles.map((article) => (
-            <div
-              key={article.slug}
-              className="animate-fade-up"
-            >
+            <div key={article.slug}>
               <ArticleCard article={article} />
             </div>
           ))}

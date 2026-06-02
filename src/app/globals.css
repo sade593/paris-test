@@ -20,9 +20,9 @@
   --color-stone-border: #d0c9be;
   --color-stone-divider: #e8e2d9;
 
-  --font-display: "FiraGO", var(--font-firago-fallback), system-ui, sans-serif;
-  --font-serif: "FiraGO", var(--font-firago-fallback), system-ui, sans-serif;
-  --font-sans: "FiraGO", var(--font-firago-fallback), system-ui, sans-serif;
+  --font-display: "FiraGO", system-ui, sans-serif;
+  --font-serif: "FiraGO", system-ui, sans-serif;
+  --font-sans: "FiraGO", system-ui, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
   --text-display-2xl: clamp(2.5rem, 5vw, 4.5rem);
@@ -71,7 +71,7 @@
       #f4efe6;
     background-size: 72px 72px;
     color: #0d0d0d;
-    font-family: "FiraGO", var(--font-firago-fallback), system-ui, sans-serif;
+    font-family: "FiraGO", system-ui, sans-serif;
   }
 
   ::selection {
@@ -88,7 +88,7 @@
   }
 
   p {
-    font-family: "FiraGO", var(--font-firago-fallback), system-ui, sans-serif;
+    font-family: "FiraGO", system-ui, sans-serif;
   }
 }
 
