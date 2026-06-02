@@ -14,11 +14,12 @@ export function ArticleCardCompact({ article }: ArticleCardCompactProps) {
       href={`/articles/${article.slug}`}
       className="group flex cursor-pointer gap-4 border-b border-stone-divider py-4"
     >
-      <div className="relative h-20 w-24 flex-shrink-0 overflow-hidden bg-parchment-warm">
+      <div className="relative aspect-[3/2] w-28 flex-shrink-0 overflow-hidden bg-parchment-warm">
         <Image
           src={article.imageUrl}
           alt={article.title}
           fill
+          quality={60}
           sizes="96px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />

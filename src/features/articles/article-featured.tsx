@@ -15,11 +15,12 @@ export function ArticleFeatured({ article }: ArticleFeaturedProps) {
     >
       <div className="absolute inset-x-0 top-0 border-t-2 border-ink" />
       <div className="absolute top-0 left-0 h-full w-0.5 bg-rouge opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[3/2] overflow-hidden">
         <Image
           src={article.imageUrl}
           alt={article.title}
           fill
+          quality={60}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />

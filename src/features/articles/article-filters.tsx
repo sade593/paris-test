@@ -117,14 +117,13 @@ export function ArticleFilters({
       </div>
 
       {filteredArticles.length > 0 ? (
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-6">
-          {filteredArticles.map((article, index) => (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredArticles.map((article) => (
             <div
               key={article.slug}
-              className={getArticlePlacement(index)}
-              style={{ animationDelay: `${Math.min(index, 8) * 0.05}s` }}
+              className="animate-fade-up"
             >
-              <ArticleCard article={article} variant={getArticleVariant(index)} />
+              <ArticleCard article={article} />
             </div>
           ))}
         </div>
@@ -152,38 +151,4 @@ function getTopicCategory(topic: string | null): string {
   }
 
   return topicCategories[topic] ?? "";
-}
-
-function getArticleVariant(
-  index: number,
-): "standard" | "lead" | "horizontal" | "text" | "dark" {
-  const variants = [
-    "lead",
-    "text",
-    "standard",
-    "dark",
-    "horizontal",
-    "standard",
-    "text",
-    "horizontal",
-    "standard",
-  ] as const;
-
-  return variants[index % variants.length];
-}
-
-function getArticlePlacement(index: number): string {
-  const placements = [
-    "lg:col-span-6",
-    "lg:col-span-2",
-    "lg:col-span-2",
-    "lg:col-span-2",
-    "lg:col-span-3",
-    "lg:col-span-3",
-    "lg:col-span-2",
-    "lg:col-span-2",
-    "lg:col-span-2",
-  ];
-
-  return `animate-fade-up ${placements[index % placements.length]}`;
 }
