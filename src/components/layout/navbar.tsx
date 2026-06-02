@@ -31,11 +31,11 @@ export function Navbar() {
       <div className="flex h-7 items-center justify-between bg-ink px-6 font-sans text-[0.68rem] text-parchment/55 lg:px-10 xl:px-14">
         <p className="tracking-wide">Monday, 1 June 2026</p>
         <div className="hidden items-center gap-4 sm:flex">
-          <Link href="/" className="transition-colors hover:text-parchment">
+          <Link href="/#newsletter" className="transition-colors hover:text-parchment">
             Subscribe
           </Link>
           <span className="h-3 w-px bg-parchment/20" aria-hidden="true" />
-          <Link href="/" className="transition-colors hover:text-parchment">
+          <Link href="/#newsletter" className="transition-colors hover:text-parchment">
             Newsletter
           </Link>
         </div>
@@ -69,7 +69,7 @@ export function Navbar() {
           >
             <span aria-hidden="true">⌕</span>
           </Link>
-          <Link href="/" className="btn-rouge hidden px-5 py-2.5 sm:inline-flex">
+          <Link href="/#newsletter" className="btn-rouge hidden px-5 py-2.5 sm:inline-flex">
             S&apos;abonner
           </Link>
           <button

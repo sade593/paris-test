@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { HeroArticle } from "@/components/home/hero-article";
+import { NewsletterSignup } from "@/components/home/newsletter-signup";
 import { absoluteUrl, siteConfig } from "@/config/site";
 import { ArticleCardCompact } from "@/features/articles/article-card-compact";
 import { ArticleFilters } from "@/features/articles/article-filters";
@@ -152,25 +153,7 @@ export default async function Home() {
 
             <div className="divider-rouge my-6" />
 
-            <form className="bg-ink p-6">
-              <h2 className="headline-white mb-2 text-lg">Newsletter</h2>
-              <p className="body-sm mb-4 text-sm text-parchment/60">
-                Receive the essential international stories in a concise
-                editorial briefing.
-              </p>
-              <label className="sr-only" htmlFor="newsletter-email">
-                Email
-              </label>
-              <input
-                id="newsletter-email"
-                type="email"
-                placeholder="Email address"
-                className="search-input mb-3 border-white/20 text-parchment placeholder:text-parchment/40 focus:border-parchment"
-              />
-              <button type="submit" className="btn-rouge w-full justify-center">
-                Subscribe
-              </button>
-            </form>
+            <NewsletterSignup />
           </aside>
         </section>
 
