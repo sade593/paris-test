@@ -5,9 +5,7 @@ import { Suspense } from "react";
 import { HeroArticle } from "@/components/home/hero-article";
 import { NewsletterSignup } from "@/components/home/newsletter-signup";
 import { absoluteUrl, siteConfig } from "@/config/site";
-import { ArticleCardCompact } from "@/features/articles/article-card-compact";
 import { ArticleFilters } from "@/features/articles/article-filters";
-import { ArticleFeatured } from "@/features/articles/article-featured";
 import { getArticles, getCategories } from "@/features/articles/article-queries";
 import { buildHomepageJsonLd } from "@/features/articles/article-seo";
 
@@ -37,9 +35,6 @@ export const metadata: Metadata = {
 export default async function Home() {
   const articles = await getArticles();
   const [heroArticle, ...secondaryArticles] = articles;
-  const sidebarArticles = secondaryArticles.slice(9, 15);
-  const featuredArticles = secondaryArticles.slice(15, 19);
-  const trendingArticles = secondaryArticles.slice(0, 5);
   const breakingArticle = secondaryArticles[0] ?? heroArticle;
   const categories = getCategories(articles);
   const jsonLd = buildHomepageJsonLd(articles);
@@ -85,7 +80,7 @@ export default async function Home() {
       </section>
 
       <div className="w-full bg-[#fffefa] px-6 py-10 ring-1 ring-stone-divider/80 lg:px-10 xl:px-14">
-        <section className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_360px]" aria-labelledby="top-story">
+        <section aria-labelledby="top-story">
           <div>
             <div className="mb-5 flex items-center gap-3">
               <div className="flex items-center gap-3">
@@ -97,84 +92,22 @@ export default async function Home() {
             </div>
             <HeroArticle article={heroArticle} />
           </div>
-
-          <aside className="border-t border-stone-divider bg-parchment/40 p-5 pt-6 xl:border-t-0 xl:border-l xl:bg-transparent xl:p-0 xl:pl-8">
-            <div className="mb-4 flex items-center gap-3 border-b border-stone-divider pb-4">
-              <span className="font-sans text-label-lg text-rouge" aria-hidden="true">
-                ↗
-              </span>
-              <h2 className="font-sans text-label-lg font-medium uppercase tracking-[0.22em] text-stone-editorial">
-                Trending now
-              </h2>
-            </div>
-            <div>
-              {trendingArticles.map((article, index) => (
-                <Link
-                  key={article.slug}
-                  href={`/articles/${article.slug}`}
-                  className="group grid grid-cols-[2.3rem_minmax(0,1fr)] gap-4 border-b border-stone-divider py-4"
-                >
-                  <span className="font-display text-2xl font-black text-parchment-deep transition-colors group-hover:text-rouge-muted">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span>
-                    <span className="category-label mb-2 inline-block">
-                      {article.category}
-                    </span>
-                    <span className="headline-sm clip-2 block text-[1rem] transition-colors group-hover:text-rouge">
-                      {article.title}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </aside>
         </section>
 
-        <section className="mt-20 grid grid-cols-1 gap-10 border-t-2 border-ink pt-8 lg:grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_360px]">
-          <div className="lg:col-span-3">
+        <section className="mt-16 border-t-2 border-ink pt-8">
+          <div>
             <Suspense fallback={null}>
-              <ArticleFilters articles={secondaryArticles} categories={categories} />
+              <ArticleFilters
+                articles={secondaryArticles.slice(0, 12)}
+                categories={categories}
+              />
             </Suspense>
           </div>
-
-          <aside className="lg:col-span-3 xl:col-span-1 xl:border-l xl:border-stone-divider xl:pl-8">
-            <div className="section-header">
-              <h2 className="section-title">À la une</h2>
-            </div>
-            <div>
-              {sidebarArticles.map((article) => (
-                <ArticleCardCompact key={article.slug} article={article} />
-              ))}
-            </div>
-
-            <div className="divider-rouge my-6" />
-
-            <NewsletterSignup />
-          </aside>
         </section>
 
-        {featuredArticles.length > 0 ? (
-          <section
-            id="monde"
-            className="mt-16 border-t-2 border-ink pt-8"
-            aria-labelledby="politics-section"
-          >
-            <div className="section-header">
-              <h2 id="politics-section" className="section-title">
-                Monde & Politique
-              </h2>
-              <Link href="/" className="btn-ghost text-sm">
-                Voir tout <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {featuredArticles.map((article) => (
-                <ArticleFeatured key={article.slug} article={article} />
-              ))}
-            </div>
-          </section>
-        ) : null}
+        <section className="mx-auto mt-16 max-w-narrow">
+          <NewsletterSignup />
+        </section>
       </div>
     </main>
   );
