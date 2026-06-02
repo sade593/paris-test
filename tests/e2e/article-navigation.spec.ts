@@ -11,3 +11,13 @@ test("reader can open an article from the homepage", async ({ page }) => {
   await expect(page).toHaveURL(/\/articles\//);
   await expect(page.getByRole("link", { name: "Back to homepage" })).toBeVisible();
 });
+
+test("top navigation filters the article section by topic", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByRole("link", { name: "Politics", exact: true }).click();
+
+  await expect(page).toHaveURL(/topic=politics/);
+  await expect(page.getByPlaceholder("Category: Politics")).toBeVisible();
+  await expect(page.getByText("No articles match the selected filters.")).toHaveCount(0);
+});

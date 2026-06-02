@@ -65,4 +65,30 @@ describe("parseLeMondeFeed", () => {
       false,
     );
   });
+
+  it("infers editorial categories from international feed copy", () => {
+    const articles = parseLeMondeFeed(`
+      <rss>
+        <channel>
+          <item>
+            <title>Elon Musk défend son projet technologique</title>
+            <link>https://www.lemonde.fr/example/article-3.html</link>
+            <description>Un débat sur l'intelligence artificielle.</description>
+            <category>International</category>
+          </item>
+          <item>
+            <title>La coalition du gouvernement présente un texte politique</title>
+            <link>https://www.lemonde.fr/example/article-4.html</link>
+            <description>Le parlement doit examiner la réforme.</description>
+            <category>International</category>
+          </item>
+        </channel>
+      </rss>
+    `);
+
+    expect(articles.map((article) => article.category)).toEqual([
+      "Technology",
+      "Politics",
+    ]);
+  });
 });

@@ -10,39 +10,51 @@ type HeroArticleProps = {
 
 export function HeroArticle({ article }: HeroArticleProps) {
   return (
-    <article className="relative w-full overflow-hidden bg-ink sm:aspect-[16/7] sm:min-h-[520px]">
-      <div className="relative aspect-[4/3] overflow-hidden bg-parchment-warm sm:absolute sm:inset-0 sm:aspect-auto">
+    <article className="group relative min-h-[420px] overflow-hidden bg-ink ring-1 ring-ink/10 md:min-h-[520px]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(200,16,46,0.32),transparent_32%),linear-gradient(135deg,#0d0d0d_0%,#15100f_48%,#3a0712_100%)] md:hidden" />
+      <div className="absolute inset-0 hidden bg-parchment-warm md:block">
         <Image
           src={article.imageUrl}
           alt={article.title}
           fill
-          sizes="100vw"
-          className="object-cover opacity-95 sm:opacity-80"
-          priority
+          sizes="(max-width: 1279px) calc(100vw - 3rem), calc(100vw - 31rem)"
+          quality={78}
+          className="object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
         />
       </div>
-      <div className="hero-overlay hidden sm:block" />
-      <div className="absolute top-0 left-0 hidden h-full w-1 bg-rouge sm:block" />
+      <div className="hero-overlay" />
 
-      <div className="bg-ink px-6 py-8 sm:absolute sm:right-0 sm:bottom-0 sm:left-0 sm:max-w-3xl sm:bg-transparent sm:px-10 sm:pb-12">
-        <p className="category-label-dark mb-3">{article.category}</p>
-        <h1 className="headline-white mb-4 text-display-2xl text-balance">
+      <div className="absolute right-6 bottom-7 left-6 z-10 max-w-[760px] sm:right-auto md:right-8 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10">
+        <p className="mb-4 inline-flex bg-rouge px-3 py-1 font-sans text-[0.65rem] font-medium uppercase tracking-[0.1em] text-white">
+          {article.category}
+        </p>
+        <h1 className="headline-white mb-3 max-w-[700px] text-balance text-[clamp(2rem,3.8vw,3.35rem)]">
           {article.title}
         </h1>
-        <p className="body-sm clip-2 mb-6 font-serif text-base text-parchment/80">
+        <p className="body-sm clip-2 mb-5 font-serif text-base text-parchment/85">
           {article.description}
         </p>
-        <p className="byline mb-1 uppercase text-parchment/60">
-          By {article.author}
-        </p>
-        <time className="dateline text-parchment/50" dateTime={article.publishedAt}>
-          {formatArticleDate(article.publishedAt)}
-        </time>
-        <div className="mt-6">
-          <Link href={`/articles/${article.slug}`} className="btn-rouge">
-            Read article <span aria-hidden="true">→</span>
-          </Link>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p className="font-sans text-[0.68rem] font-medium uppercase tracking-[0.12em] text-parchment/80">
+            By {article.author}
+          </p>
+          <span className="h-1 w-1 rounded-full bg-parchment/40" aria-hidden="true" />
+          <time
+            className="font-sans text-[0.68rem] text-parchment/60"
+            dateTime={article.publishedAt}
+          >
+            {formatArticleDate(article.publishedAt)}
+          </time>
+          <span className="h-1 w-1 rounded-full bg-parchment/40" aria-hidden="true" />
+          <span className="font-sans text-[0.68rem] text-parchment/60">
+            8 min read
+          </span>
         </div>
+        <Link
+          href={`/articles/${article.slug}`}
+          className="absolute inset-0"
+          aria-label={`Read article: ${article.title}`}
+        />
       </div>
     </article>
   );

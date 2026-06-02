@@ -1,27 +1,16 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Source_Serif_4 } from "next/font/google";
+import { Fira_Sans } from "next/font/google";
 import "./globals.css";
 
 import { siteConfig } from "@/config/site";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 
-const playfair = Playfair_Display({
+const firaSans = Fira_Sans({
   subsets: ["latin"],
-  variable: "--font-playfair",
-  weight: ["400", "700", "900"],
-});
-
-const sourceSerif = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-source-serif",
-  weight: ["300", "400", "600"],
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
-  weight: ["300", "400", "500"],
+  variable: "--font-firago-fallback",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "optional",
 });
 
 export const metadata: Metadata = {
@@ -45,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${sourceSerif.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${firaSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <Navbar />
