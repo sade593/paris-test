@@ -135,8 +135,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </div>
           </div>
 
-          <figure className="flex min-h-[520px] flex-col justify-center bg-ink p-4 lg:p-8">
-            <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink">
+          <figure className="flex min-h-[520px] flex-col justify-center bg-[#eee7dc] p-5 lg:p-10">
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <span className="h-0.5 w-12 bg-rouge" aria-hidden="true" />
+              <span className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-stone-editorial">
+                Photo dispatch
+              </span>
+            </div>
+            <div className="relative aspect-[16/10] w-full overflow-hidden border border-stone-border bg-[#f8f5ef] shadow-[0_24px_70px_rgba(13,13,13,0.14)] xl:aspect-[16/9]">
               <Image
                 src={article.imageUrl}
                 alt={article.title}
@@ -147,7 +153,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 className="object-contain"
               />
             </div>
-            <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-3 font-sans text-[0.68rem] uppercase tracking-[0.14em] text-parchment/45">
+            <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-stone-border pt-4 font-sans text-[0.68rem] uppercase tracking-[0.14em] text-stone-editorial">
               <span>Image source: Le Monde RSS</span>
               <span>{article.category}</span>
             </figcaption>
